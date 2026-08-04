@@ -1,0 +1,86 @@
+@model List<AdminOrderVm>
+@{
+    ViewData["Title"] = "Manage Orders";
+}
+
+<div class="page-title">
+    <h2>Manage Orders</h2>
+    <p>Update order status as it moves through fulfillment.</p>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="empty-state card-panel">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z" /><path d="M9 9h1M9 13h6M9 17h6" /></svg>
+        <p class="mb-0">No orders yet.</p>
+    </div>
+}
+else
+{
+    <div class="table-panel">
+        <table class="table align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Customer</th>
+                    <th>Shipping</th>
+                    <th>Date</th>
+                    <th>Items</th>
+                    <th>Total</th>
+                    <th>Payment</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model)
+                {
+                    <tr>
+                        <td class="fw-semibold">#@order.Id</td>
+                        <td>
+                            @order.CustomerName<br />
+                            <small class="text-muted">@order.CustomerEmail</small><br />
+                            <small class="text-muted">@order.CustomerPhone</small>
+                        </td>
+                        <td><small>@order.ShippingAddress</small></td>
+                        <td>@order.OrderDate.ToLocalTime().ToString("dd MMM yyyy, hh:mm tt")</td>
+                        <td>
+                            <ul class="list-unstyled mb-0">
+                                @foreach (var item in order.Items)
+                                {
+                                    <li>@item.ProductName &times; @item.Quantity</li>
+                                }
+                            </ul>
+                        </td>
+                        <td class="fw-semibold">Rs. @order.TotalAmount.ToString("N2")</td>
+                        <td><span class="badge bg-secondary">@order.PaymentMethod</span></td>
+                        <td style="width: 200px;">
+                            @if (order.Status == "Delivered")
+                            {
+                                <span class="badge bg-success">Delivered</span>
+                            }
+                            else if (order.Status == "Cancelled")
+                            {
+                                <span class="badge bg-danger">Cancelled</span>
+                            }
+                            else
+                            {
+                                <form asp-action="UpdateStatus" asp-route-id="@order.Id" method="post">
+                                    <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
+                                        @if (order.Status == "Open")
+                                        {
+                                            <option value="Open" selected>Open</option>
+                                        }
+                                        <option value="Accepted" selected="@(order.Status == "Accepted")">Accepted</option>
+                                        <option value="Preparation" selected="@(order.Status == "Preparation")">Preparation</option>
+                                        <option value="OnDelivery" selected="@(order.Status == "OnDelivery")">On Delivery</option>
+                                        <option value="Cancelled">Cancel Order</option>
+                                    </select>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

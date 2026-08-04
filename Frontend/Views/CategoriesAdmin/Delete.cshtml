@@ -1,0 +1,23 @@
+@model CategoryVm
+@{
+    ViewData["Title"] = "Delete Category";
+}
+
+<div class="page-title">
+    <h2>Delete Category</h2>
+</div>
+
+<div class="card-panel" style="max-width: 480px;">
+    <p>Are you sure you want to delete <strong>@Model.Name</strong>?</p>
+
+    @if (!string.IsNullOrEmpty(Model.Description))
+    {
+        <p class="text-muted">@Model.Description</p>
+    }
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a class="btn btn-link" asp-action="Index">Cancel</a>
+    </form>
+</div>

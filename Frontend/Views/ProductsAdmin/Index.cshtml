@@ -1,0 +1,50 @@
+@model List<ProductVm>
+@{
+    ViewData["Title"] = "Manage Products";
+}
+
+<div class="page-title d-flex justify-content-between align-items-end flex-wrap gap-2">
+    <div>
+        <h2>Manage Products</h2>
+        <p>Add, edit, or remove items from your catalog.</p>
+    </div>
+    <a class="btn btn-primary" asp-action="Create">+ Add Product</a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="empty-state card-panel">
+        <p class="mb-0">No products yet. Click "+ Add Product" to create your first one.</p>
+    </div>
+}
+else
+{
+    <div class="table-panel">
+        <table class="table align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model)
+                {
+                    <tr>
+                        <td class="fw-semibold">@product.Name</td>
+                        <td>@product.CategoryName</td>
+                        <td>Rs. @product.Price.ToString("N2")</td>
+                        <td>@product.Stock</td>
+                        <td>
+                            <a class="btn btn-sm btn-outline-secondary" asp-action="Edit" asp-route-id="@product.Id">Edit</a>
+                            <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@product.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

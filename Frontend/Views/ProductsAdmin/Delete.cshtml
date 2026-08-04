@@ -1,0 +1,27 @@
+@model ProductVm
+@{
+    ViewData["Title"] = "Delete Product";
+}
+
+<div class="page-title">
+    <h2>Delete Product</h2>
+</div>
+
+<div class="card-panel" style="max-width: 480px;">
+    <p>Are you sure you want to delete <strong>@Model.Name</strong>?</p>
+
+    <dl class="row">
+        <dt class="col-sm-4">Category</dt>
+        <dd class="col-sm-8">@Model.CategoryName</dd>
+        <dt class="col-sm-4">Price</dt>
+        <dd class="col-sm-8">Rs. @Model.Price.ToString("N2")</dd>
+        <dt class="col-sm-4">Stock</dt>
+        <dd class="col-sm-8">@Model.Stock</dd>
+    </dl>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a class="btn btn-link" asp-action="Index">Cancel</a>
+    </form>
+</div>
