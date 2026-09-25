@@ -1,23 +1,14 @@
 using System.Diagnostics;
 using ECommerceApp.Frontend.Models;
-using ECommerceApp.Frontend.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerceApp.Frontend.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ApiClient _apiClient;
-
-    public HomeController(ApiClient apiClient)
+    public IActionResult Index()
     {
-        _apiClient = apiClient;
-    }
-
-    public async Task<IActionResult> Index()
-    {
-        var products = await _apiClient.GetProductsAsync();
-        return View(products);
+        return View();
     }
 
     public IActionResult Error()

@@ -1,4 +1,3 @@
-@model CheckoutFormVm
 @{
     ViewData["Title"] = "Checkout";
 }
@@ -8,39 +7,36 @@
     <p>Confirm your details before placing the order.</p>
 </div>
 
-<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div data-form-error class="alert alert-danger d-none"></div>
 
-<form asp-action="PlaceOrder" method="post">
+<form id="checkoutForm">
     <div class="row g-4">
         <div class="col-lg-7 d-flex flex-column gap-4">
             <div class="card-panel">
                 <h5 class="mb-3">Customer Information</h5>
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <label asp-for="FullName" class="form-label"></label>
-                        <input asp-for="FullName" class="form-control" />
-                        <span asp-validation-for="FullName" class="text-danger"></span>
+                        <label class="form-label">Full Name</label>
+                        <input name="fullName" required class="form-control" />
                     </div>
                     <div class="col-md-6">
-                        <label asp-for="Email" class="form-label"></label>
-                        <input asp-for="Email" class="form-control" readonly />
+                        <label class="form-label">Email Address</label>
+                        <input id="checkoutEmail" class="form-control" readonly />
                     </div>
                     <div class="col-md-6">
-                        <label asp-for="Phone" class="form-label"></label>
-                        <input asp-for="Phone" class="form-control" placeholder="e.g. 03001234567" />
-                        <span asp-validation-for="Phone" class="text-danger"></span>
+                        <label class="form-label">Phone Number</label>
+                        <input name="phone" type="tel" required class="form-control" placeholder="e.g. 03001234567" />
                     </div>
                     <div class="col-12">
-                        <label asp-for="ShippingAddress" class="form-label"></label>
-                        <textarea asp-for="ShippingAddress" class="form-control" rows="3"></textarea>
-                        <span asp-validation-for="ShippingAddress" class="text-danger"></span>
+                        <label class="form-label">Shipping Address</label>
+                        <textarea name="shippingAddress" required class="form-control" rows="3"></textarea>
                     </div>
                 </div>
             </div>
 
             <div class="card-panel">
                 <h5 class="mb-3">Payment Information</h5>
-                <input type="hidden" asp-for="PaymentMethod" />
+                <input type="hidden" name="paymentMethod" value="Online" />
                 <div class="payment-option selected">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2" /><line x1="2" x2="22" y1="10" y2="10" /></svg>
                     <div>
@@ -55,18 +51,10 @@
         <div class="col-lg-5">
             <div class="card-panel">
                 <h5 class="mb-3">Order Summary</h5>
-                <ul class="list-unstyled mb-3">
-                    @foreach (var item in Model.Items)
-                    {
-                        <li class="d-flex justify-content-between py-2 border-bottom">
-                            <span>@item.Name <span class="text-muted">&times; @item.Quantity</span></span>
-                            <span class="fw-semibold">Rs. @item.Total.ToString("N2")</span>
-                        </li>
-                    }
-                </ul>
+                <ul id="orderSummaryList" class="list-unstyled mb-3"></ul>
                 <div class="d-flex justify-content-between fs-5 fw-bold mb-3">
                     <span>Grand Total</span>
-                    <span>Rs. @Model.GrandTotal.ToString("N2")</span>
+                    <span id="grandTotal"></span>
                 </div>
                 <button type="submit" class="btn btn-success w-100">Place Order</button>
                 <a class="btn btn-link w-100 mt-1" asp-controller="Cart" asp-action="Index">&larr; Back to Cart</a>
@@ -76,5 +64,5 @@
 </form>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/pages/checkout.js"></script>
 }

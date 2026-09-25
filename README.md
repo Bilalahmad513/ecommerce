@@ -14,7 +14,7 @@ This project is completely separate from `quickvee-admin-panel/` in this same fo
    dotnet --version
    ```
    should print something like `8.0.x`.
-2. **SQL Server LocalDB** — this normally comes bundled with Visual Studio's ".NET desktop / ASP.NET workload". If you installed Visual Studio Community with the "ASP.NET and web development" workload, you already have it. Otherwise install "SQL Server Express LocalDB" from Microsoft.
+2. **SQL Server Express** (a real, named SQL Server instance — not LocalDB) — install "SQL Server 2022 Express" from Microsoft if you don't already have it, and make sure the instance is named `SQLEXPRESS` (that's the default). This is what `Backend/appsettings.json`'s connection string (`Server=.\SQLEXPRESS`) points at, and it's also what lets you open the database directly in **SQL Server Management Studio (SSMS)** — connect with server name `.\SQLEXPRESS` (or `(local)\SQLEXPRESS`) and Windows Authentication.
 3. **EF Core CLI tool** (used to create the database tables):
    ```
    dotnet tool install --global dotnet-ef

@@ -1,4 +1,3 @@
-@model CheckoutVm
 @{
     ViewData["Title"] = "Your Cart";
 }
@@ -8,63 +7,8 @@
     <p>Review your items before checking out.</p>
 </div>
 
-@if (!Model.Items.Any())
-{
-    <div class="empty-state card-panel">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1" /><circle cx="19" cy="21" r="1" /><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" /></svg>
-        <p class="mb-2">Your cart is empty.</p>
-        <a asp-controller="Home" asp-action="Index">Continue shopping &rarr;</a>
-    </div>
-}
-else
-{
-    <div class="table-panel mb-4">
-        <table class="table mb-0">
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.Items)
-                {
-                    <tr>
-                        <td class="fw-semibold">@item.Name</td>
-                        <td>Rs. @item.Price.ToString("N2")</td>
-                        <td style="width: 170px;">
-                            <form asp-action="UpdateQuantity" method="post" class="d-flex gap-1">
-                                <input type="hidden" name="productId" value="@item.ProductId" />
-                                <input type="number" name="quantity" value="@item.Quantity" min="0" class="form-control form-control-sm" />
-                                <button type="submit" class="btn btn-sm btn-outline-secondary">Update</button>
-                            </form>
-                        </td>
-                        <td class="fw-semibold">Rs. @item.Total.ToString("N2")</td>
-                        <td>
-                            <form asp-action="Remove" method="post">
-                                <input type="hidden" name="productId" value="@item.ProductId" />
-                                <button type="submit" class="btn btn-sm btn-outline-danger">Remove</button>
-                            </form>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+<div id="cartContainer"></div>
 
-    <div class="row justify-content-end">
-        <div class="col-md-5">
-            <div class="card-panel">
-                <h5 class="mb-3">Order Summary</h5>
-                <div class="d-flex justify-content-between fs-5 fw-bold mb-3">
-                    <span>Grand Total</span>
-                    <span>Rs. @Model.GrandTotal.ToString("N2")</span>
-                </div>
-                <a class="btn btn-success w-100" asp-controller="Checkout" asp-action="Index">Proceed to Checkout</a>
-            </div>
-        </div>
-    </div>
+@section Scripts {
+    <script src="~/js/pages/cart-page.js"></script>
 }

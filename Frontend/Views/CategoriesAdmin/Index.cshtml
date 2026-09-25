@@ -1,6 +1,6 @@
-@model List<CategoryVm>
 @{
     ViewData["Title"] = "Manage Categories";
+    ViewData["Breadcrumb"] = "Inventory > Categories";
 }
 
 <div class="page-title d-flex justify-content-between align-items-end flex-wrap gap-2">
@@ -11,36 +11,8 @@
     <a class="btn btn-primary" asp-action="Create">+ Add Category</a>
 </div>
 
-@if (!Model.Any())
-{
-    <div class="empty-state card-panel">
-        <p class="mb-0">No categories yet. Click "+ Add Category" to create your first one.</p>
-    </div>
-}
-else
-{
-    <div class="table-panel">
-        <table class="table align-middle mb-0">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var category in Model)
-                {
-                    <tr>
-                        <td class="fw-semibold">@category.Name</td>
-                        <td>@category.Description</td>
-                        <td>
-                            <a class="btn btn-sm btn-outline-secondary" asp-action="Edit" asp-route-id="@category.Id">Edit</a>
-                            <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@category.Id">Delete</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+<div id="categoriesContainer"></div>
+
+@section Scripts {
+    <script src="~/js/pages/admin-categories-index.js"></script>
 }

@@ -1,6 +1,7 @@
-@model CategoryEditVm
 @{
     ViewData["Title"] = "Edit Category";
+    var categoryId = ViewData["CategoryId"];
+    ViewData["Breadcrumb"] = "Inventory > Categories > Edit";
 }
 
 <div class="page-title">
@@ -8,18 +9,16 @@
 </div>
 
 <div class="card-panel" style="max-width: 480px;">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div data-form-error class="alert alert-danger d-none"></div>
 
-    <form asp-action="Edit" method="post">
-        <input type="hidden" asp-for="Id" />
+    <form id="categoryForm" data-category-id="@categoryId">
         <div class="mb-3">
-            <label asp-for="Name" class="form-label"></label>
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
+            <label class="form-label">Name</label>
+            <input name="name" required maxlength="100" class="form-control" />
         </div>
         <div class="mb-3">
-            <label asp-for="Description" class="form-label"></label>
-            <textarea asp-for="Description" class="form-control"></textarea>
+            <label class="form-label">Description</label>
+            <textarea name="description" class="form-control"></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Save</button>
         <a class="btn btn-link" asp-action="Index">Cancel</a>
@@ -27,5 +26,5 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/pages/admin-categories-form.js"></script>
 }

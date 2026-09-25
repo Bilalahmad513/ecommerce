@@ -1,27 +1,24 @@
-@model ProductVm
 @{
     ViewData["Title"] = "Delete Product";
+    var productId = ViewData["ProductId"];
+    ViewData["Breadcrumb"] = "Inventory > Products > Delete";
 }
 
 <div class="page-title">
     <h2>Delete Product</h2>
 </div>
 
-<div class="card-panel" style="max-width: 480px;">
-    <p>Are you sure you want to delete <strong>@Model.Name</strong>?</p>
+<div class="card-panel" style="max-width: 480px;" data-product-id="@productId" id="deleteProductPanel">
+    <p id="deleteProductPrompt">Are you sure you want to delete this product?</p>
 
-    <dl class="row">
-        <dt class="col-sm-4">Category</dt>
-        <dd class="col-sm-8">@Model.CategoryName</dd>
-        <dt class="col-sm-4">Price</dt>
-        <dd class="col-sm-8">Rs. @Model.Price.ToString("N2")</dd>
-        <dt class="col-sm-4">Stock</dt>
-        <dd class="col-sm-8">@Model.Stock</dd>
-    </dl>
+    <dl class="row" id="deleteProductDetails"></dl>
 
-    <form asp-action="Delete" method="post">
-        <input type="hidden" asp-for="Id" />
-        <button type="submit" class="btn btn-danger">Delete</button>
-        <a class="btn btn-link" asp-action="Index">Cancel</a>
-    </form>
+    <div data-form-error class="alert alert-danger d-none"></div>
+
+    <button type="button" id="confirmDeleteBtn" class="btn btn-danger">Delete</button>
+    <a class="btn btn-link" asp-action="Index">Cancel</a>
 </div>
+
+@section Scripts {
+    <script src="~/js/pages/admin-products-delete.js"></script>
+}
