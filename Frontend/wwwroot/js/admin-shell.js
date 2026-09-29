@@ -34,5 +34,26 @@
                 }
             });
         }
+
+        highlightActiveNavLink();
     });
+
+    function highlightActiveNavLink() {
+        var currentPath = window.location.pathname.replace(/\/+$/, "").toLowerCase() || "/";
+        var links = document.querySelectorAll(".sidebar-nav .sidebar-link[href], .sidebar-nav .sidebar-sublink[href]");
+        var bestMatch = null;
+
+        links.forEach(function (link) {
+            var linkPath = new URL(link.href, window.location.origin).pathname.replace(/\/+$/, "").toLowerCase() || "/";
+            if (currentPath === linkPath || currentPath.indexOf(linkPath + "/") === 0) {
+                if (!bestMatch || linkPath.length > bestMatch.linkPath.length) {
+                    bestMatch = { link: link, linkPath: linkPath };
+                }
+            }
+        });
+
+        if (bestMatch) {
+            bestMatch.link.classList.add("active");
+        }
+    }
 })();

@@ -1,11 +1,48 @@
 @{
     ViewData["Title"] = "Manage Orders";
-    ViewData["Breadcrumb"] = "Orders";
+    ViewData["Breadcrumb"] = "Manage > Orders";
 }
 
-<div class="page-title">
-    <h2>Manage Orders</h2>
-    <p>Update order status as it moves through fulfillment.</p>
+<div class="page-title d-flex justify-content-between align-items-end flex-wrap gap-2">
+    <div>
+        <h2>Manage Orders</h2>
+        <p>Update order status as it moves through fulfillment.</p>
+    </div>
+    <div class="d-flex gap-2">
+        <button type="button" id="exportBtn" class="btn btn-outline-secondary">Export</button>
+    </div>
+</div>
+
+<div class="order-stat-cards">
+    <div class="order-stat-card">
+        <div class="order-stat-card-top"><span class="stat-dot dot-total"></span>Total orders</div>
+        <div class="order-stat-card-value" id="statTotalOrders">0</div>
+    </div>
+    <div class="order-stat-card">
+        <div class="order-stat-card-top"><span class="stat-dot dot-open"></span>Open</div>
+        <div class="order-stat-card-value" id="statOpenOrders">0</div>
+    </div>
+    <div class="order-stat-card">
+        <div class="order-stat-card-top"><span class="stat-dot dot-accepted"></span>Accepted</div>
+        <div class="order-stat-card-value" id="statAcceptedOrders">0</div>
+    </div>
+    <div class="order-stat-card">
+        <div class="order-stat-card-top"><span class="stat-dot dot-delivered"></span>Delivered</div>
+        <div class="order-stat-card-value" id="statDeliveredOrders">0</div>
+    </div>
+</div>
+
+<div class="filter-bar">
+    <div class="filter-tabs" id="statusFilterTabs">
+        <button type="button" class="filter-tab active" data-filter="all">All <span id="tabCountAll"></span></button>
+        <button type="button" class="filter-tab" data-filter="Open">Open</button>
+        <button type="button" class="filter-tab" data-filter="Accepted">Accepted</button>
+        <button type="button" class="filter-tab" data-filter="Preparation">Preparation</button>
+        <button type="button" class="filter-tab" data-filter="OnDelivery">On Delivery</button>
+        <button type="button" class="filter-tab" data-filter="Delivered">Delivered</button>
+        <button type="button" class="filter-tab" data-filter="Cancelled">Cancelled</button>
+    </div>
+    <div class="filter-bar-note" id="ordersShowingNote"></div>
 </div>
 
 <div id="ordersContainer"></div>

@@ -19,30 +19,31 @@
         return stock + " in stock";
     }
 
+    var CART_ICON_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1" /><circle cx="19" cy="21" r="1" /><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" /></svg>';
+
     function productCardHtml(product, authed) {
         var thumb = product.imageUrl
-            ? '<img src="' + escapeHtml(product.imageUrl) + '" class="product-thumb" alt="' + escapeHtml(product.name) + '" />'
-            : '<div class="product-thumb-placeholder">' + escapeHtml((product.name || "?").trim().charAt(0).toUpperCase()) + "</div>";
+            ? '<img src="' + escapeHtml(product.imageUrl) + '" alt="' + escapeHtml(product.name) + '" />'
+            : escapeHtml((product.name || "?").trim().charAt(0).toUpperCase());
 
         var actionHtml = authed
-            ? '<button type="button" class="btn btn-primary btn-sm w-100 add-to-cart-btn" data-product-id="' + product.id + '"' + (product.stock === 0 ? " disabled" : "") + '>Add to Cart</button>'
-            : '<a class="btn btn-primary btn-sm flex-grow-1" href="/Account/Login">Login to Order</a>';
+            ? '<button type="button" class="btn btn-primary btn-sm add-to-cart-btn d-flex align-items-center justify-content-center gap-1" data-product-id="' + product.id + '"' + (product.stock === 0 ? " disabled" : "") + ">" + CART_ICON_SVG + "<span>Add to Cart</span></button>"
+            : '<a class="btn btn-primary btn-sm" href="/Account/Login">Login to Order</a>';
 
         return (
             '<div class="col">' +
-            '<div class="product-card h-100 d-flex flex-column">' +
-            thumb +
-            '<div class="card-body d-flex flex-column flex-grow-1">' +
-            '<p class="text-muted small mb-1">' + escapeHtml(product.categoryName) + "</p>" +
-            "<h5 class=\"mb-2\">" + escapeHtml(product.name) + "</h5>" +
-            '<div class="d-flex justify-content-between align-items-center mb-2">' +
+            '<div class="product-card-v2">' +
+            '<div class="product-card-v2-thumb">' + thumb + "</div>" +
+            '<div class="product-card-v2-category">' + escapeHtml(product.categoryName) + "</div>" +
+            '<div class="product-card-v2-name">' + escapeHtml(product.name) + "</div>" +
+            '<div class="product-card-v2-meta">' +
             '<span class="product-price">Rs. ' + Number(product.price).toFixed(2) + "</span>" +
             '<span class="stock-pill ' + stockClass(product.stock) + '">' + stockText(product.stock) + "</span>" +
             "</div>" +
-            '<div class="mt-auto d-flex gap-2">' +
-            '<a class="btn btn-outline-primary btn-sm flex-grow-1" href="/Product/Details/' + product.id + '">Details</a>' +
+            '<div class="product-card-v2-actions">' +
+            '<a class="btn btn-outline-secondary btn-sm" href="/Product/Details/' + product.id + '">Details</a>' +
             actionHtml +
-            "</div></div></div></div>"
+            "</div></div></div>"
         );
     }
 

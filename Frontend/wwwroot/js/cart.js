@@ -19,7 +19,14 @@
         if (existing) {
             existing.quantity += quantity;
         } else {
-            items.push({ productId: product.id, name: product.name, price: product.price, quantity: quantity });
+            items.push({
+                productId: product.id,
+                name: product.name,
+                price: product.price,
+                quantity: quantity,
+                imageUrl: product.imageUrl || null,
+                stock: typeof product.stock === "number" ? product.stock : null
+            });
         }
         saveItems(items);
     }
